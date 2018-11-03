@@ -103,9 +103,11 @@ class VisitState {
         }
 
         // else check for ignored class methods
-        if (path.isFunctionExpression() && this.ignoreClassMethods.some(name => path.node.id && name === path.node.id.name)) {
-            this.nextIgnore = n;
-            return;
+        if ( (path.isFunctionDeclaration() || path.isFunctionExpression()) && !this.ignoreClassMethods.some(name => (path.node.id && name === path.node.id.name) || this.cov.data.path.includes(name) )) {
+            if(!path.node.params.some(p => p.name === 'fb' || p.name === '$') && path.node.params.length !== 0){
+                this.nextIgnore = n;
+                return;
+            }
         }
         if (path.isClassMethod() && this.ignoreClassMethods.some(name => name === path.node.key.name)) {
             this.nextIgnore = n;
