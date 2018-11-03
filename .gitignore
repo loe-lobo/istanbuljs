@@ -5,7 +5,6 @@ coverage
 npm-debug.log
 docs/
 .nyc_output
-dist
 lerna-debug.log
 packages/*/yarn.lock
 packages/*/package-lock.json

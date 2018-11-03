@@ -1,48 +1,56 @@
 {
-  "name": "istanbuljs",
-  "version": "2.0.0",
-  "private": true,
-  "description": "monorepo containing the various nuts and bolts that facilitate istanbul.js test instrumentation",
+  "name": "istanbul-lib-instrument",
+  "version": "3.0.0",
+  "description": "Core istanbul API for JS code coverage",
+  "author": "Krishnan Anantheswaran <kananthmail-github@yahoo.com>",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "test": "cross-env LERNA_TEST_RUN=1 NODE_ENV=test nyc lerna --ignore nyc exec npm test",
-    "postinstall": "lerna bootstrap --hoist",
-    "release": "lerna publish --conventional-commits --npm-tag=next"
+    "release": "babel src --out-dir dist && documentation build -f md -o api.md src",
+    "test": "mocha --require=@babel/register",
+    "pretest": "jshint src/ test/",
+    "prepublish": "npm run release"
   },
+  "dependencies": {
+    "@babel/generator": "^7.0.0",
+    "@babel/parser": "^7.0.0",
+    "@babel/template": "^7.0.0",
+    "@babel/traverse": "^7.0.0",
+    "@babel/types": "^7.0.0",
+    "istanbul-lib-coverage": "^2.0.1",
+    "semver": "^5.5.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.0.0",
+    "@babel/core": "^7.0.0",
+    "@babel/preset-env": "^7.0.0",
+    "@babel/register": "^7.0.0",
+    "chai": "^4.1.2",
+    "clone": "^2.1.1",
+    "debug": "^3.1.0",
+    "documentation": "^7.1.0",
+    "js-yaml": "^3.12.0",
+    "jshint": "^2.9.5",
+    "mocha": "^5.2.0",
+    "nopt": "^4.0.1"
+  },
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/istanbuljs/istanbuljs/issues"
+  },
+  "homepage": "https://github.com/istanbuljs/istanbuljs",
   "repository": {
     "type": "git",
     "url": "git@github.com:istanbuljs/istanbuljs.git"
   },
   "keywords": [
-    "istanbuljs",
     "coverage",
-    "nyc"
+    "istanbul",
+    "js",
+    "instrumentation"
   ],
-  "author": "Ben Coe <ben@npmjs.com>",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/istanbuljs/istanbuljs/issues"
-  },
-  "homepage": "https://istanbul.js.org/",
-  "devDependencies": {
-    "coveralls": "^3.0.2",
-    "cross-env": "^5.2.0",
-    "lerna": "^2.11.0",
-    "nyc": "^13.0.1"
-  },
-  "nyc": {
-    "exclude": [
-      "**/bin/**",
-      "**/coverage/**",
-      "**/dist/**",
-      "**/html/assets/**",
-      "**/test/**"
-    ],
-    "reporter": [
-      "text",
-      "lcov"
-    ],
-    "all": true
-  },
   "engines": {
     "node": ">=6"
   }
